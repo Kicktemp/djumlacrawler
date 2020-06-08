@@ -1,0 +1,16 @@
+{
+  "name": "puppeteercrawler",
+  "version": "1.0.0",
+  "description": "Puppeteer Cookie Crawler",
+  "main": "index.js",
+  "scripts": {
+    "cookies": "node crawler.js",
+    "big": "node big.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "del": "^5.1.0",
+    "puppeteer": "^3.3.0"
+  }
+}
