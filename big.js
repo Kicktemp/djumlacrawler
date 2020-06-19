@@ -40,9 +40,9 @@ const del = require('del');
 const util = require('util');
 const puppeteer = require('puppeteer');
 
-const URL = process.env.URL || 'https://alc-roehrsdorf.de/anfahrt.html';
+const URL = process.env.URL || 'https://news.polymer-project.org/';
 const DEPTH = parseInt(process.env.DEPTH) || 2;
-const OUT_DIR = process.env.OUTDIR || `output/${slugify(URL)}`;
+const OUT_DIR = process.env.OUTDIR || `kcm/${slugify(URL)}`;
 
 const crawledPages = new Map();
 const crawledCookies = new Map();
@@ -92,7 +92,7 @@ function collectAllSameOriginAnchorsDeep(sameOrigin = true) {
   findAllElements(document.querySelectorAll('*'));
 
   const filtered = allElements
-    .filter(el => el.localName === 'a' && el.href && el.href.indexOf('.pdf') < 0 && el.href && el.href.indexOf('.ics') < 0 && el.href.indexOf('ahPg=search.list') < 0 && el.href.indexOf('ahPg=show.vehicle') < 0 && el.href.indexOf('view=job&id=') < 0) // element is an anchor with an href.
+    .filter(el => el.localName === 'a' && el.href && el.href.indexOf('.pdf') < 0 && el.href && el.href.indexOf('.ics') < 0) // element is an anchor with an href.
     .filter(el => el.href !== location.href) // link doesn't point to page's own URL.
     .filter(el => {
       if (sameOrigin) {
@@ -209,7 +209,7 @@ async function crawl(browser, page, depth = 0) {
       nextRequest();
     });
 
-    await newPage.goto(page.url, {waitUntil: 'networkidle0', timeout: 0});
+    await newPage.goto(page.url, {waitUntil: 'load', timeout: 0});
 
     let anchors = await newPage.evaluate(collectAllSameOriginAnchorsDeep);
     anchors = anchors.filter(a => a !== URL) // link doesn't point to start url of crawl.

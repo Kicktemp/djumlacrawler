@@ -1,3 +1,5 @@
 .idea/
 output/
+kcm/
 node_modules/
+vgrd.sh
